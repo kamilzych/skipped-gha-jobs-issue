@@ -1,0 +1,13 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo tests!

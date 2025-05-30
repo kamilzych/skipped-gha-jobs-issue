@@ -2,12 +2,29 @@ name: Deployment
 
 on:
   push:
-    branches: [ "main" ]
-    
+    branches: ["main"]
+
 jobs:
   tests:
     runs-on: ubuntu-latest
-
+    if: ${{ !contains(github.event.head_commit.message, 'force-deploy-without-tests') }}
     steps:
-      - uses: actions/checkout@v4
       - run: echo tests!
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo build!
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: [build, tests]
+    if: ${{ success() || (!cancelled() && contains(github.event.head_commit.message, 'force-deploy-without-tests')) }}
+    steps:
+      - run: echo deploy-dev!
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: [build, deploy-dev]
+    steps:
+      - run: echo deploy-prod!

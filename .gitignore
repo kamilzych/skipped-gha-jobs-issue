@@ -1,0 +1,11 @@
+build/
+.idea/
+.DS_Store
+db.backup/
+.kotlin
+.classpath
+.project
+bin/
+.settings/
+kls_database.db
+
